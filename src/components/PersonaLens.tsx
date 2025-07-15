@@ -8,6 +8,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Brain, Target, MessageCircle, Users, Lightbulb, TrendingUp, Star, Tags, Activity } from "lucide-react";
 import aiSalesperson from "@/assets/ai-salesperson.png";
+import personaIcon from "@/assets/persona-icon.png";
+import discIcon from "@/assets/disc-icon.png";
+import sentimentIcon from "@/assets/sentiment-icon.png";
+import modulesIcon from "@/assets/modules-icon.png";
+import valueMessageIcon from "@/assets/value-message-icon.png";
+import ctaIcon from "@/assets/cta-icon.png";
+import pitchToneIcon from "@/assets/pitch-tone-icon.png";
+import confidenceIcon from "@/assets/confidence-icon.png";
+import tagsIcon from "@/assets/tags-icon.png";
+import promptTraceIcon from "@/assets/prompt-trace-icon.png";
 
 const PersonaLens = () => {
   const [inputs, setInputs] = useState({
@@ -52,31 +62,42 @@ const PersonaLens = () => {
     }, 2000);
   };
 
-  const ResultTile = ({ icon: Icon, title, content, explainer, confidence }: any) => (
+  const ResultTile = ({ aiImage, title, content, explainer, confidence }: any) => (
     <Card className="h-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/20">
-      <CardHeader className="pb-3">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <Icon className="w-5 h-5 text-primary" />
+      <CardContent className="p-6">
+        <div className="flex gap-6">
+          {/* AI Generated Image - Left Side */}
+          <div className="flex-shrink-0">
+            <img 
+              src={aiImage} 
+              alt={`${title} illustration`} 
+              className="w-24 h-24 object-cover rounded-lg shadow-md"
+            />
           </div>
-          <div>
-            <CardTitle className="text-lg">{title}</CardTitle>
-            <CardDescription className="text-sm text-muted-foreground">
-              {explainer}
+          
+          {/* Content - Right Side */}
+          <div className="flex-1 space-y-3">
+            {/* Name of the Tile */}
+            <CardTitle className="text-xl font-bold text-primary">{title}</CardTitle>
+            
+            {/* Brief description */}
+            <CardDescription className="text-sm text-muted-foreground leading-relaxed">
+              <span className="font-semibold">Why this matters for sales/pre-sales:</span> {explainer}
             </CardDescription>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          <p className="text-sm leading-relaxed">{content}</p>
-          {confidence && (
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs">
-                {confidence}% confidence
-              </Badge>
+            
+            {/* Actual outcome */}
+            <div className="space-y-2">
+              <h4 className="font-semibold text-foreground">Outcome:</h4>
+              <p className="text-sm leading-relaxed">{content}</p>
+              {confidence && (
+                <div className="flex items-center gap-2 mt-2">
+                  <Badge variant="secondary" className="text-xs">
+                    {confidence}% confidence
+                  </Badge>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -216,9 +237,9 @@ const PersonaLens = () => {
               <p className="text-white/80">AI-powered insights for strategic sales enablement</p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
               <ResultTile
-                icon={Users}
+                aiImage={personaIcon}
                 title="Persona"
                 content={results.persona}
                 explainer="Helps tailor the message based on strategic responsibilities"
@@ -226,7 +247,7 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={Brain}
+                aiImage={discIcon}
                 title="DISC Personality Type"
                 content={results.discType}
                 explainer="Informs message tone, pitch timing, and CTA format"
@@ -234,7 +255,7 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={Activity}
+                aiImage={sentimentIcon}
                 title="Sentiment"
                 content={results.sentiment}
                 explainer="Helps in prioritizing deal stage and objection handling"
@@ -242,7 +263,7 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={Target}
+                aiImage={modulesIcon}
                 title="Matching iMocha Modules"
                 content={results.matchingModules.join(", ")}
                 explainer="Connects prospect pain points to platform capabilities"
@@ -250,7 +271,7 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={MessageCircle}
+                aiImage={valueMessageIcon}
                 title="Personalized Value Message"
                 content={results.valueMessage}
                 explainer="Sales enablement content for emails, calls, or decks"
@@ -258,7 +279,7 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={TrendingUp}
+                aiImage={ctaIcon}
                 title="Suggested CTA"
                 content={results.suggestedCta}
                 explainer="Moves the conversation forward strategically"
@@ -266,7 +287,7 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={Lightbulb}
+                aiImage={pitchToneIcon}
                 title="Recommended Pitch Tone"
                 content={results.pitchTone}
                 explainer="Helps reps frame messaging that lands well"
@@ -274,7 +295,7 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={Star}
+                aiImage={confidenceIcon}
                 title="Weighted Confidence Score"
                 content="Output confidence based on input variety"
                 explainer="Signals if the response is trustworthy or requires human review"
@@ -282,16 +303,16 @@ const PersonaLens = () => {
               />
 
               <ResultTile
-                icon={Tags}
+                aiImage={tagsIcon}
                 title="Contextual Tags"
                 content={results.contextualTags.join(", ")}
                 explainer="Used to cluster prospects or trigger playbooks"
                 confidence={null}
               />
 
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-2">
                 <ResultTile
-                  icon={Brain}
+                  aiImage={promptTraceIcon}
                   title="Prompt Trace"
                   content={results.promptTrace}
                   explainer="Internal logic trace for QA/debugging - improves model transparency and tuning"
